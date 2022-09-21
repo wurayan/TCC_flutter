@@ -1,10 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:partiu_app/Responsive/layout_screen.dart';
-import 'package:partiu_app/Responsive/mobile_screen_layout.dart';
-import 'package:partiu_app/Responsive/web_screen_layout.dart';
-import 'package:partiu_app/Screens/Login.dart';
+import 'package:partiu_app/Screens/Login_screen.dart';
+import 'package:partiu_app/Screens/cadastro_screen.dart';
 import 'package:partiu_app/Utils/Colors.dart';
 
 void main() async {
@@ -38,7 +36,7 @@ class MyApp extends StatelessWidget {
         //   mobileScreenLayout: MobileScreenLayout(),
         //   webScreenLayout: WebScreenLayout(),
         // )
-        home: LoginScreen(),
+        home: const LoginScreen(),
         );
   }
 }
