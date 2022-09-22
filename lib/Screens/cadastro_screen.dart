@@ -2,6 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:partiu_app/Responsive/layout_screen.dart';
+import 'package:partiu_app/Responsive/mobile_screen_layout.dart';
+import 'package:partiu_app/Responsive/web_screen_layout.dart';
+import 'package:partiu_app/Screens/Login_screen.dart';
 import 'package:partiu_app/Utils/Colors.dart';
 import 'package:partiu_app/Utils/utils.dart';
 import 'package:partiu_app/Widgets/text_field_input.dart';
@@ -56,7 +60,20 @@ class _CadastroScreenState extends State<CadastroScreen> {
     });
     if (res != 'successo') {
       showSnackBar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const ResponsiveLayout(
+          mobileScreenLayout: MobileScreenLayout(),
+          webScreenLayout: WebScreenLayout(),
+        ),
+      ));
     }
+  }
+
+  void navigateToLogin() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const LoginScreen(),
+    ));
   }
 
   @override
@@ -142,16 +159,16 @@ class _CadastroScreenState extends State<CadastroScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: const Text("Ainda não possui conta?"),
+                child: const Text("Já possui conta?"),
                 padding: const EdgeInsets.symmetric(
                   vertical: 8,
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: navigateToLogin,
                 child: Container(
                   child: const Text(
-                    "Cadastre-se",
+                    "Entrar",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   padding: const EdgeInsets.symmetric(

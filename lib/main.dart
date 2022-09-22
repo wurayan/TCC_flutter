@@ -1,9 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:partiu_app/Responsive/layout_screen.dart';
+import 'package:partiu_app/Responsive/mobile_screen_layout.dart';
+import 'package:partiu_app/Responsive/web_screen_layout.dart';
 import 'package:partiu_app/Screens/Login_screen.dart';
 import 'package:partiu_app/Screens/cadastro_screen.dart';
 import 'package:partiu_app/Utils/Colors.dart';
+import 'package:partiu_app/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,16 +33,41 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: '#PARTIU',
-        theme:
-            ThemeData.dark().copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
-        // home: const ResponsiveLayout(
-        //   mobileScreenLayout: MobileScreenLayout(),
-        //   webScreenLayout: WebScreenLayout(),
-        // )
-        home: const LoginScreen(),
-        );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider())
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: '#PARTIU',
+          theme:
+              ThemeData.dark().copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
+          
+          home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.active){
+                if(snapshot.hasData){
+                  return const ResponsiveLayout(
+                    mobileScreenLayout: MobileScreenLayout(),
+                    webScreenLayout: WebScreenLayout(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("${snapshot.error}"),);
+                }
+              }
+              if(snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child:  CircularProgressIndicator(
+                    color: primaryColor,
+                  ),
+                );
+              }
+    
+              return const LoginScreen();
+            }),
+          
+          ),
+    );
   }
 }
