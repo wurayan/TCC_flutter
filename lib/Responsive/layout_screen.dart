@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:partiu_app/Utils/dimensions.dart';
+import 'package:partiu_app/Utils/global_variables.dart';
 import 'package:partiu_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 

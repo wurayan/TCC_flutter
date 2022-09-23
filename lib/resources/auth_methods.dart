@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:partiu_app/models/user.dart' as model;
+import 'package:partiu_app/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,15 +23,19 @@ class AuthMethods {
     required String username,
     required String idade,
     required String password,
+    required Uint8List file,
   }) async {
     String res = "Aconteceu algum erro";
     try {
       if (email.isNotEmpty ||
           username.isNotEmpty ||
           idade.isNotEmpty ||
-          password.isNotEmpty) {
+          password.isNotEmpty ||
+          file != null) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
+
+        String photoUrl = await StorageMethods().uploadImageToStorage('profilePics', file, false);
 
         model.User user = model.User(
           username: username,
@@ -36,6 +43,7 @@ class AuthMethods {
           email: email,
           idade: idade,
           eventos: [],
+          photoUrl: photoUrl
         );
 
         await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());

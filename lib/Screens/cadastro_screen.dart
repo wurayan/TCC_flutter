@@ -23,6 +23,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _idadeController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  Uint8List? _image;
   bool _isLoading = false;
 
   // Uint8List? _image; variavel necessaria para imagem
@@ -53,22 +54,35 @@ class _CadastroScreenState extends State<CadastroScreen> {
         email: _emailController.text,
         username: _usernameController.text,
         idade: _idadeController.text,
-        password: _passwordController.text);
+        password: _passwordController.text,
+        file: _image!);
 
-    setState(() {
-      _isLoading = false;
-    });
+    
     if (res != 'successo') {
-      showSnackBar(res, context);
-    } else {
+      setState(() {
+      _isLoading = false;
+      });
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const ResponsiveLayout(
           mobileScreenLayout: MobileScreenLayout(),
           webScreenLayout: WebScreenLayout(),
         ),
       ));
+    } else {
+      setState(() {
+      _isLoading = false;
+      });
+      showSnackBar(res, context);
     }
   }
+
+  selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
+  
 
   void navigateToLogin() {
     Navigator.of(context).push(MaterialPageRoute(
@@ -98,6 +112,27 @@ class _CadastroScreenState extends State<CadastroScreen> {
           const SizedBox(
             height: 64,
           ),
+          Stack(
+            children: [
+              _image != null ? CircleAvatar(
+                radius: 64,
+                backgroundImage: MemoryImage(_image!),
+                backgroundColor:  Colors.red,
+              )
+              : const CircleAvatar(
+                radius: 64,
+                backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/1200px-Breezeicons-actions-22-im-user.svg.png'),
+                backgroundColor: Colors.red,
+              ),
+              Positioned(
+                bottom: -10,
+                left: 80,
+                child: IconButton(
+                  onPressed: selectImage,
+                  icon: const Icon(Icons.add_a_photo),))
+            ],
+          ),
+          SizedBox(height: 24,),
           TextFieldInput(
               textEditingController: _emailController,
               hintText: "Digite seu Email",
