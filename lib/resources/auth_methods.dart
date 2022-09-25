@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:partiu_app/models/user.dart' as model;
 import 'package:partiu_app/resources/storage_methods.dart';
 
@@ -43,7 +42,8 @@ class AuthMethods {
           email: email,
           idade: idade,
           eventos: [],
-          photoUrl: photoUrl
+          photoUrl: photoUrl,
+          seguidores: [],
         );
 
         await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
@@ -85,5 +85,9 @@ class AuthMethods {
       res = error.toString();
     }
     return res;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

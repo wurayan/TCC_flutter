@@ -139,7 +139,7 @@ class _AddEventoScreenState extends State<AddEventoScreen> {
             body: Column(
               children: [
                 _isLoading 
-                  ? LinearProgressIndicator() 
+                  ? const LinearProgressIndicator() 
                   : const Padding(padding: EdgeInsets.only(top: 0)),
                   const Divider(),
 

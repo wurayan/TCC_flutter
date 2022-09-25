@@ -29,7 +29,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _emailController.dispose();
     _usernameController.dispose();
@@ -56,10 +55,9 @@ class _CadastroScreenState extends State<CadastroScreen> {
         password: _passwordController.text,
         file: _image!);
 
-    
     if (res != 'successo') {
       setState(() {
-      _isLoading = false;
+        _isLoading = false;
       });
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const ResponsiveLayout(
@@ -69,7 +67,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
       ));
     } else {
       setState(() {
-      _isLoading = false;
+        _isLoading = false;
       });
       showSnackBar(res, context);
     }
@@ -81,7 +79,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
       _image = im;
     });
   }
-  
 
   void navigateToLogin() {
     Navigator.of(context).push(MaterialPageRoute(
@@ -101,8 +98,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
-            child: Container(),
             flex: 2,
+            child: Container(),
           ),
           Image.asset(
             'assets/images/logo.png',
@@ -113,25 +110,30 @@ class _CadastroScreenState extends State<CadastroScreen> {
           ),
           Stack(
             children: [
-              _image != null ? CircleAvatar(
-                radius: 64,
-                backgroundImage: MemoryImage(_image!),
-                backgroundColor:  Colors.red,
-              )
-              : const CircleAvatar(
-                radius: 64,
-                backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/1200px-Breezeicons-actions-22-im-user.svg.png'),
-                backgroundColor: Colors.red,
-              ),
+              _image != null
+                  ? CircleAvatar(
+                      radius: 64,
+                      backgroundImage: MemoryImage(_image!),
+                      backgroundColor: Colors.red,
+                    )
+                  : const CircleAvatar(
+                      radius: 64,
+                      backgroundImage: NetworkImage(
+                          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Breezeicons-actions-22-im-user.svg/1200px-Breezeicons-actions-22-im-user.svg.png'),
+                      backgroundColor: Colors.red,
+                    ),
               Positioned(
-                bottom: -10,
-                left: 80,
-                child: IconButton(
-                  onPressed: selectImage,
-                  icon: const Icon(Icons.add_a_photo),))
+                  bottom: -10,
+                  left: 80,
+                  child: IconButton(
+                    onPressed: selectImage,
+                    icon: const Icon(Icons.add_a_photo),
+                  ))
             ],
           ),
-          SizedBox(height: 24,),
+          const SizedBox(
+            height: 24,
+          ),
           TextFieldInput(
               textEditingController: _emailController,
               hintText: "Digite seu Email",
@@ -165,13 +167,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
           InkWell(
             onTap: signUpUser,
             child: Container(
-              child: _isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: primaryColor,
-                      ),
-                    )
-                  : const Text("Cadastre-se"),
               width: double.infinity,
               alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -180,33 +175,40 @@ class _CadastroScreenState extends State<CadastroScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
                   color: blueColor),
+              child: _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    )
+                  : const Text("Cadastre-se"),
             ),
           ),
           const SizedBox(
             height: 12,
           ),
           Flexible(
-            child: Container(),
             flex: 2,
+            child: Container(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: const Text("Já possui conta?"),
                 padding: const EdgeInsets.symmetric(
                   vertical: 8,
                 ),
+                child: const Text("Já possui conta?"),
               ),
               GestureDetector(
                 onTap: navigateToLogin,
                 child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                  ),
                   child: const Text(
                     "Entrar",
                     style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8,
                   ),
                 ),
               )

@@ -6,7 +6,6 @@ import 'package:partiu_app/Responsive/layout_screen.dart';
 import 'package:partiu_app/Responsive/mobile_screen_layout.dart';
 import 'package:partiu_app/Responsive/web_screen_layout.dart';
 import 'package:partiu_app/Screens/Login_screen.dart';
-import 'package:partiu_app/Screens/cadastro_screen.dart';
 import 'package:partiu_app/Utils/Colors.dart';
 import 'package:partiu_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
